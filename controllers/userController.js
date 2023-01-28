@@ -217,6 +217,24 @@ const getUserProfileController = async (req, res) => {
     }
 };
 
+const searchUserController = async (req, res) => {
+    try {
+        const { searchQuery } = req.body;
+
+        if (!searchQuery) {
+            res.send(error(400, "Search query is required"));
+        }
+
+        const user = await User.find({
+            $or: [{ name: { $regex: searchQuery, $options: "i" } }],
+        });
+
+        return res.send(success(200, { user }));
+    } catch (err) {
+        return res.send(error(500, err.message));
+    }
+};
+
 module.exports = {
     followOrUnfollowUserController,
     getPostsOfFollowingController,
@@ -226,4 +244,5 @@ module.exports = {
     getMyInfoController,
     updateMyProfileController,
     getUserProfileController,
+    searchUserController,
 };

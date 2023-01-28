@@ -11,6 +11,7 @@ const {
     getMyInfoController,
     updateMyProfileController,
     getUserProfileController,
+    searchUserController,
 } = UserController;
 
 router.post("/follow", requireUser, followOrUnfollowUserController);
@@ -21,5 +22,6 @@ router.delete("/deleteMyProfile", requireUser, deleteMyProfileController);
 router.get("/getMyInfo", requireUser, getMyInfoController);
 router.put("/", requireUser, updateMyProfileController);
 router.post("/getUserProfile", requireUser, getUserProfileController);
+router.post("/searchUser", requireUser, searchUserController);
 
 module.exports = router;

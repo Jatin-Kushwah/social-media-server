@@ -18,12 +18,27 @@ const createCommentController = async (req, res) => {
         post.comments.push(comment._id);
         await post.save();
 
-        return res.send(success(201, comment));
+        const data = await Comment.findById(comment._id).populate("user");
+
+        return res.send(success(201, { data }));
     } catch (err) {
         return res.send(error(500, err.message));
     }
 };
 
+const getCommentsController = async (req, res) => {
+    try {
+        const { postId } = req.body;
+
+        const comments = await Comment.find({ postId }).populate("user");
+
+        return res.send(success(200, comments));
+    } catch (err) {
+        return res.send(error(500, err));
+    }
+};
+
 module.exports = {
     createCommentController,
+    getCommentsController,
 };
