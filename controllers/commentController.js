@@ -28,7 +28,7 @@ const createCommentController = async (req, res) => {
 
 const getCommentsController = async (req, res) => {
     try {
-        const { postId } = req.body;
+        const { postId } = req.query;
 
         const comments = await Comment.find({ postId }).populate("user");
 
