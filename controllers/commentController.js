@@ -1,6 +1,5 @@
 const Comment = require("../models/Comment");
 const Post = require("../models/Post");
-const User = require("../models/User");
 const { success, error } = require("../utils/responseWrapper");
 
 const createCommentController = async (req, res) => {

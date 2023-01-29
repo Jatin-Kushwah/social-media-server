@@ -2,6 +2,7 @@ const express = require("express");
 const authRouter = require("./routers/authRouter");
 const postRouter = require("./routers/postRouter");
 const userRouter = require("./routers/userRouter");
+const chatRouter = require("./routers/chatRouter");
 const commentRouter = require("./routers/commentRouter");
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
@@ -33,7 +34,6 @@ app.use(morgan("common"));
 app.use(cookieParser());
 
 let origin = "http://localhost:3000";
-console.log("here env", process.env.NODE_ENV);
 if (process.env.NODE_ENV === "production") {
     origin = process.env.CORS_ORIGIN;
 }
@@ -48,6 +48,7 @@ app.use(
 app.use("/auth", authRouter);
 app.use("/post", postRouter);
 app.use("/user", userRouter);
+app.use("/chat", chatRouter);
 app.use("/comment", commentRouter);
 
 app.get("/", (req, res) => {

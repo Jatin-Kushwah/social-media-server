@@ -12,10 +12,12 @@ const {
     updateMyProfileController,
     getUserProfileController,
     searchUserController,
+    getPostsOfNotFollowingController,
 } = UserController;
 
 router.post("/follow", requireUser, followOrUnfollowUserController);
 router.get("/getFeedData", requireUser, getPostsOfFollowingController);
+router.get("/getExploreData", requireUser, getPostsOfNotFollowingController);
 router.get("/getMyPosts", requireUser, getMyPostsController);
 router.get("/getUserPosts", requireUser, getUserPostsController);
 router.delete("/deleteMyProfile", requireUser, deleteMyProfileController);

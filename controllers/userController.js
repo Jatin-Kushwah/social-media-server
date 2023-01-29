@@ -46,9 +46,10 @@ const getPostsOfFollowingController = async (req, res) => {
         const curUserId = req._id;
         const curUser = await User.findById(curUserId).populate("followings");
 
+        const followingsIds = curUser.followings.map((item) => item._id);
+        followingsIds.push(req._id);
+
         const fullPosts = await Post.find({
-            // owner: curUser.followings,
-            // OR
             owner: {
                 $in: curUser.followings,
             },
@@ -58,9 +59,6 @@ const getPostsOfFollowingController = async (req, res) => {
             .map((item) => mapPostOutput(item, req._id))
             .reverse();
 
-        const followingsIds = curUser.followings.map((item) => item._id);
-        followingsIds.push(req._id);
-
         const suggestions = await User.find({
             _id: {
                 $nin: followingsIds,
@@ -68,6 +66,29 @@ const getPostsOfFollowingController = async (req, res) => {
         });
 
         return res.send(success(200, { ...curUser._doc, suggestions, posts }));
+    } catch (err) {
+        return res.send(error(500, err.message));
+    }
+};
+const getPostsOfNotFollowingController = async (req, res) => {
+    try {
+        const curUserId = req._id;
+        const curUser = await User.findById(curUserId).populate("followings");
+
+        const followingsIds = curUser.followings.map((item) => item._id);
+        followingsIds.push(req._id);
+
+        const fullPosts = await Post.find({
+            owner: {
+                $nin: followingsIds,
+            },
+        }).populate("owner");
+
+        const posts = fullPosts
+            .map((item) => mapPostOutput(item, req._id))
+            .reverse();
+
+        return res.send(success(200, { posts }));
     } catch (err) {
         return res.send(error(500, err.message));
     }
@@ -161,7 +182,9 @@ const deleteMyProfileController = async (req, res) => {
 
 const getMyInfoController = async (req, res) => {
     try {
-        const user = await User.findById(req._id);
+        const user = await User.findById(req._id)
+            .populate("followers")
+            .populate("followings");
         return res.send(success(200, { user }));
     } catch (err) {
         return res.send(error(500, err.message));
@@ -238,6 +261,7 @@ const searchUserController = async (req, res) => {
 module.exports = {
     followOrUnfollowUserController,
     getPostsOfFollowingController,
+    getPostsOfNotFollowingController,
     getMyPostsController,
     getUserPostsController,
     deleteMyProfileController,
