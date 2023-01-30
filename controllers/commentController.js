@@ -37,7 +37,36 @@ const getCommentsController = async (req, res) => {
     }
 };
 
+const deleteCommentController = async (req, res) => {
+    try {
+        const { commentId } = req.body;
+        const userId = req._id;
+        const comment = await Comment.findById(commentId);
+        if (!comment) {
+            return res.send(error(404, "Comment not found"));
+        }
+
+        if (comment.user.toString() !== userId) {
+            return res.send(
+                error(403, "Only owners can delete their comments")
+            );
+        }
+
+        const postId = comment.post;
+        const post = await Post.findById(postId);
+        const index = post.comments.indexOf(commentId);
+        post.comments.splice(index, 1);
+        await post.save();
+        await comment.remove();
+
+        return res.send(success(200, "Comment deleted successfully"));
+    } catch (err) {
+        return res.send(error(500, err.message));
+    }
+};
+
 module.exports = {
     createCommentController,
     getCommentsController,
+    deleteCommentController,
 };

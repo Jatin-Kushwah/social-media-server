@@ -101,6 +101,8 @@ const deletePostController = async (req, res) => {
             return res.send(error(403, "Only owners can delete their posts"));
         }
 
+        await Comment.deleteMany({ post: postId });
+
         const index = curUser.posts.indexOf(postId);
         curUser.posts.splice(index, 1);
         await curUser.save();
