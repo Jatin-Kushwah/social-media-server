@@ -1,5 +1,6 @@
 const Post = require("../models/Post");
 const User = require("../models/User");
+const Comment = require("../models/Comment");
 const { success, error } = require("../utils/responseWrapper");
 const { mapPostOutput } = require("../utils/Utils");
 const cloudinary = require("cloudinary").v2;
@@ -165,6 +166,11 @@ const deleteMyProfileController = async (req, res) => {
             const index = await post.likes.indexOf(curUser);
             post.likes.splice(index, 1);
             await post.save();
+        });
+
+        // Deletion of all comments of the user
+        await Comment.deleteMany({
+            owner: curUser,
         });
 
         await curUser.remove();
