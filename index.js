@@ -2,7 +2,6 @@ const express = require("express");
 const authRouter = require("./routers/authRouter");
 const postRouter = require("./routers/postRouter");
 const userRouter = require("./routers/userRouter");
-const chatRouter = require("./routers/chatRouter");
 const commentRouter = require("./routers/commentRouter");
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
@@ -48,7 +47,6 @@ app.use(
 app.use("/auth", authRouter);
 app.use("/post", postRouter);
 app.use("/user", userRouter);
-app.use("/chat", chatRouter);
 app.use("/comment", commentRouter);
 
 app.get("/", (req, res) => {

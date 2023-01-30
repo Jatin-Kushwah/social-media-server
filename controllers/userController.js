@@ -228,12 +228,15 @@ const updateMyProfileController = async (req, res) => {
 const getUserProfileController = async (req, res) => {
     try {
         const { userId } = req.body;
-        const user = await User.findById(userId).populate({
-            path: "posts",
-            populate: {
-                path: "owner",
-            },
-        });
+        const user = await User.findById(userId)
+            .populate({
+                path: "posts",
+                populate: {
+                    path: "owner",
+                },
+            })
+            .populate("followers")
+            .populate("followings");
 
         const fullPosts = user.posts;
         const posts = fullPosts
