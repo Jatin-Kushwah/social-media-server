@@ -7,13 +7,14 @@ const { mapPostOutput } = require("../utils/Utils");
 
 const createPostController = async (req, res) => {
     try {
-        const { caption, postImg } = req.body;
+        const { caption, postImg, isVideo } = req.body;
 
         if (!caption || !postImg) {
-            res.send(error(400, "Caption and Image are required"));
+            return res.send(error(400, "Caption and Media are required"));
         }
         const cloudImg = await cloudinary.uploader.upload(postImg, {
             folder: "postImg",
+            resource_type: "auto",
         });
 
         const owner = req._id;
@@ -23,6 +24,7 @@ const createPostController = async (req, res) => {
         const post = await Post.create({
             owner,
             caption,
+            isVideo,
             image: {
                 publicId: cloudImg.public_id,
                 url: cloudImg.url,

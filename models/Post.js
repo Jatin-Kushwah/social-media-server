@@ -15,6 +15,9 @@ const postSchema = mongoose.Schema(
             type: String,
             required: true,
         },
+        isVideo: {
+            type: Boolean,
+        },
         likes: [
             {
                 type: mongoose.Schema.Types.ObjectId,
