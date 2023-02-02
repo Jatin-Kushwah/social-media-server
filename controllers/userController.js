@@ -71,6 +71,7 @@ const getPostsOfFollowingController = async (req, res) => {
         return res.send(error(500, err.message));
     }
 };
+
 const getPostsOfNotFollowingController = async (req, res) => {
     try {
         const curUserId = req._id;

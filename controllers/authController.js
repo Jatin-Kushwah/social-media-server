@@ -121,7 +121,7 @@ const logoutController = async (req, res) => {
 const generateAccessToken = (data) => {
     try {
         const token = jwt.sign(data, process.env.ACCESS_TOKEN_KEY, {
-            expiresIn: "1d",
+            expiresIn: "30d",
         });
         return token;
     } catch (err) {
