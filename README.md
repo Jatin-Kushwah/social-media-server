@@ -8,6 +8,11 @@ Here is the Output of this Instagram Clone.
 
 Demo Video:
 
+https://youtu.be/lCN3aDZxwvI
+
+Screenshots:
+
+![Image 1](https://user-images.githubusercontent.com/122866611/218429286-61751145-680c-4277-8c2e-a696657cb525.png)
 
 ## Features
 
