@@ -34,7 +34,7 @@ app.use(cookieParser());
 
 let origin = "http://localhost:3000";
 if (process.env.NODE_ENV === "production") {
-    origin = "https://social-media-client-mocha.vercel.app/";
+    origin = "https://social-media-client-mocha.vercel.app";
 }
 
 app.use(
