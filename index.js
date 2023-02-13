@@ -34,7 +34,7 @@ app.use(cookieParser());
 
 let origin = "http://localhost:3000";
 if (process.env.NODE_ENV === "production") {
-    origin = process.env.CORS_ORIGIN;
+    origin = "https://client-app-e2xl.onrender.com/";
 }
 
 app.use(
